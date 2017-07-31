@@ -9,14 +9,12 @@ info:
     
   description: |
       # Introduction
-      The TickX API is built on HTTP.  Our API is RESTful and has predictable resource URLs.  It returns HTTP response codes to indicate errors.  It also returns JSON in the HTTP body.  
+      The TickX API is built on HTTP. Our API is RESTful and has predictable resource URLs. It returns HTTP response codes to indicate errors. It also returns JSON in the HTTP body. You can use whatever REST library you wish to access our API. By using the TickX API, you agree to the terms of service.
       
-      Our API allows you to search our database to look for categories, venues and events we may have information on.
-     
-      By using the TickX API, you agree to the terms of service.
+      The current iteration of our API allows you to search our records for categories, venues and events that we may have information on.
       
       # Authentication
-      You need to have an account to access our API. Accounts are provided by us and include a username and password.
+      To access the API you must have an account. Accounts are provided by us and include a username and password. If you wish for access to our API, send us a request. Never share your API username and password. Keep them secure.
       
       The account information must be passed in the header of any requests sent to us. Invalid requests will be rejected.
      
