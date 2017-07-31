@@ -4,13 +4,12 @@ info:
   version: "1.0.0"
   title: "TickX API"
   x-logo:
-    url: 'https://www.tickx.co.uk/images/tickx-logo-2016-white.svg'
+    url: 'https://www.tickx.co.uk/images/tickx-logo-2016.svg'
     backgroundColor: null
     
   description:  |
-    # TickX API
     >
-      Using the TickX API, you can fetch and search our database to look for categories, venues and events.
+      You can use the TickX API to fetch and search our database to look for categories, venues and events we may have information on.
       
       By using the TickX API, you agree to the terms of service.
   termsOfService: "https://tickx.co.uk/terms/"
@@ -67,7 +66,7 @@ paths:
       
         Returns a list of venues which match the query.
 
-        Must provide either the City parameter or the LatLong parameter.
+        Must provide either the City parameter or the LatLong parameter to get a valid response.
 
       tags:
         -  Get
@@ -114,6 +113,8 @@ paths:
     get:
       summary: Retrieve a list of events
       description: Returns a list of events which match the query.
+      
+        Must provide either the City parameter or the LatLong parameter to get a valid response.
       tags:
         -  Get
       parameters:
@@ -290,6 +291,8 @@ definitions:
         $ref: '#/definitions/Venue'
       categories:
         type: array
+        items:
+          $ref: '#/definitions/Category'
       showings:
         type: array
 
@@ -346,7 +349,7 @@ definitions:
       
 responses:
   Standard500ErrorResponse:
-    description: An unexpected error occured.
+    description: Unexpected error.
   Standard404ErrorResponse:
     description: Not found.
   Standard400ErrorResponse:
