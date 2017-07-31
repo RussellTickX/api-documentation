@@ -3,29 +3,58 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: "TickX API"
-  description: "This is an API to provide access to information stored by TickX. By using the API, you agree to the terms of service."
+  x-logo:
+    url: 'https://www.tickx.co.uk/images/tickx-logo-2016-white.svg'
+    backgroundColor: null
+    
+  description:  |
+    # TickX API
+    >
+      Using the TickX API, you can fetch and search our database to look for categories, venues and events.
+      
+      By using the TickX API, you agree to the terms of service.
   termsOfService: "https://tickx.co.uk/terms/"
   contact:
     email: "apiteam@tickx.co.uk"
-  license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
     
 schemes:
   - https
-host: api.tickx.co.uk
-basePath: /api
+host: syncs.tickx.co.uk
+basePath: /api/v1/
+
+tags:
+  - name: Get
 
 paths:                   
   /categories:
     get:
-      summary: Gets a list of categories
-      description: Returns a list containing all categories.
+      summary: Retrieve a list of categories
+      description: Returns a list of all categories.
+      tags:
+        -  Get
       responses:
         200:
           description: A list of categories
           schema:
             $ref: '#/definitions/Categories'
+          examples:
+            application/json:
+              {
+                "page": 1,
+                "total_pages": 1,
+                "rows": 1,
+                "total_rows": 1,
+                    "data": [
+                      {
+                        "id": "3",
+                        "type": "comedy",
+                        "name": "Stand Up",
+                        "seo_name": "stand-up"
+                      },
+                    ]
+              }
+        400:
+          $ref: '#/responses/Standard400ErrorResponse'
         404:
           $ref: '#/responses/Standard404ErrorResponse'
         500:
@@ -33,22 +62,49 @@ paths:
           
   /venues:
     get:
-      summary: Gets a list of venues
-      description: Returns a list of venues which match the query.
+      summary: Retrieve a list of venues
+      description: | 
+      
+        Returns a list of venues which match the query.
+
+        Must provide either the City parameter or the LatLong parameter.
+
+      tags:
+        -  Get
       parameters:
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/page'
         - $ref: '#/parameters/city'
         - $ref: '#/parameters/latlong'
-        - name: radius
-          in: query
-          description: The radius to search in.
-          type: integer
+        - $ref: '#/parameters/radius'
       responses:
         200:
           description: A list of venues
           schema:
             $ref: '#/definitions/Venues'
+          examples:
+            application/json:
+              {
+                "page": 1,
+                "total_pages": 1,
+                "rows": 1,
+                "total_rows": 1,
+                    "data": [
+                      {
+                        "id": "313",
+                        "name": "O2 Academy Brixton",
+                        "city": "London",
+                        "country": "GB",
+                        "postcode": "SW9 9SL",
+                        "address": "211 Stockwell Rd, London, SW9 9SL",
+                        "lat": "51.46563949",
+                        "long": "-0.11497128",
+                        "venue_url": "https://tickx.co.uk/venue/313"
+                      }
+                    ]
+              }
+        400:
+          $ref: '#/responses/Standard400ErrorResponse'
         404:
           $ref: '#/responses/Standard404ErrorResponse'
         500:
@@ -56,8 +112,10 @@ paths:
   
   /events:
     get:
-      summary: Gets a list of events
+      summary: Retrieve a list of events
       description: Returns a list of events which match the query.
+      tags:
+        -  Get
       parameters:
         - $ref: '#/parameters/limit'
         - $ref: '#/parameters/page'
@@ -121,6 +179,44 @@ paths:
           description: A list of events
           schema:
             $ref: '#/definitions/Events'
+          examples:
+            application/json:
+              {
+                "page": 1,
+                "total_pages": 1,
+                "rows": 1,
+                "total_rows": 1,
+                    "data": [
+                      {
+                        "id": "660077",
+                        "title": "Fin Taylor and Danny McLoughlin: Edinburgh Previews",
+                        "type": "comedy",
+                        "desc": "Two shows by two multi award winning comedians",
+                        "pic": "https://d31fr2pwly4c4s.cloudfront.net/8/7/f/971839_1_fin-taylor-and-danny-mcloughlin-edinburgh-previews_th.jpg",
+                        "startdate": "2017-07-31 02:00:00",
+                        "enddate": "2017-08-01 00:00:00",
+                        "times": "19:30",
+                        "price_from": "0.00",
+                        "price_to": "0.00",
+                        "currency": "GBP",
+                        "url": "https://tickx.co.uk/event/660077",
+                        "venue": {
+                            "name": "Gullivers",
+                            "city": "Manchester",
+                            "country": "GB",
+                            "postcode": "M4 1LW",
+                            "address": "109 Oldham St, Manchester M4 1LW",
+                            "lat": "53.48388893",
+                            "long": "-2.23391369",
+                            "venue_url": "https://tickx.co.uk/venue/60"
+                        },
+                        "categories": [],
+                        "showings": []
+                      }
+                    ]
+              }
+        400:
+          $ref: '#/responses/Standard400ErrorResponse'
         404:
           $ref: '#/responses/Standard404ErrorResponse'
         500:
@@ -158,9 +254,11 @@ definitions:
             $ref: '#/definitions/Category'
             
   Event:
+    type: object
     properties:
       id:
         type: integer
+        readOnly: true
       title:
         type: string
       type:
@@ -196,6 +294,7 @@ definitions:
         type: array
 
   Venue:
+    type: object
     properties:
       id:
         type: integer
@@ -217,6 +316,7 @@ definitions:
         type: string
       
   Category:
+    type: object
     properties:
       id:
         type: integer
@@ -228,6 +328,7 @@ definitions:
         type: string
             
   Paging:
+    type: object
     required:
       - page
       - total_pages
@@ -242,23 +343,14 @@ definitions:
         type: integer
       total_rows:
         type: integer
-        
-  Error:
-    required:
-      - message
-    properties:
-      message:
-        type: string
       
 responses:
   Standard500ErrorResponse:
     description: An unexpected error occured.
-    schema:
-      $ref: "#/definitions/Error"
   Standard404ErrorResponse:
-    description: No results for this query
-    schema:
-      $ref: "#/definitions/Error"
+    description: Not found.
+  Standard400ErrorResponse:
+    description: Bad Request
       
 parameters:
   limit:
@@ -280,4 +372,9 @@ parameters:
     name: latlong
     in: query
     description: The centrepoint of the area to search.
+    type: integer
+  radius:
+    name: radius
+    in: query
+    description: The radius to search in.
     type: integer
