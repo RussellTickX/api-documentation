@@ -1,0 +1,283 @@
+swagger: "2.0"
+
+info:
+  version: "1.0.0"
+  title: "TickX API"
+  description: "This is an API to provide access to information stored by TickX. By using the API, you agree to the terms of service."
+  termsOfService: "https://tickx.co.uk/terms/"
+  contact:
+    email: "apiteam@tickx.co.uk"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    
+schemes:
+  - https
+host: api.tickx.co.uk
+basePath: /api
+
+paths:                   
+  /categories:
+    get:
+      summary: Gets a list of categories
+      description: Returns a list containing all categories.
+      responses:
+        200:
+          description: A list of categories
+          schema:
+            $ref: '#/definitions/Categories'
+        404:
+          $ref: '#/responses/Standard404ErrorResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+          
+  /venues:
+    get:
+      summary: Gets a list of venues
+      description: Returns a list of venues which match the query.
+      parameters:
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/city'
+        - $ref: '#/parameters/latlong'
+        - name: radius
+          in: query
+          description: The radius to search in.
+          type: integer
+      responses:
+        200:
+          description: A list of venues
+          schema:
+            $ref: '#/definitions/Venues'
+        404:
+          $ref: '#/responses/Standard404ErrorResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+  
+  /events:
+    get:
+      summary: Gets a list of events
+      description: Returns a list of events which match the query.
+      parameters:
+        - $ref: '#/parameters/limit'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/city'
+        - $ref: '#/parameters/latlong'
+        - name: venue_id
+          in: query
+          description: Limit results to this venue.
+          type: integer
+        - name: date_from
+          in: query
+          description: Limit results to events which start after this date.
+          type: string
+          format: date
+        - name: date_to
+          in: query
+          description: Limit results to events which start before this date.
+          type: string
+          format: date
+        - name: order
+          in: query
+          description: The property by which results will be sorted.
+          type: string
+          enum:
+            - title
+            - startdate
+            - price_from
+        - name: price_from
+          in: query
+          description: Limit results to events which cost more than this.
+          type: integer
+        - name: price_to
+          in: query
+          description: Limit results to events which cost less than this.
+          type: integer
+        - name: type
+          in: query
+          description: Limit results to events which are of the given type.
+          type: string
+          enum:
+            - club 
+            - comedy 
+            - festival
+            - gig
+            - lifestyle
+            - sport
+            - theatre
+        - name: additional_info
+          in: query
+          description: Request additional information about the events.
+          type: string
+          enum:
+            - artists
+            - tickets
+        - name: currency
+          in: query
+          description: The currency to return the results in.
+          type: string
+      responses:
+        200:
+          description: A list of events
+          schema:
+            $ref: '#/definitions/Events'
+        404:
+          $ref: '#/responses/Standard404ErrorResponse'
+        500:
+          $ref: '#/responses/Standard500ErrorResponse'
+    
+  
+                  
+definitions:
+        
+  Events:
+    allOf:
+    - $ref: '#/definitions/Paging'
+    - properties:
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/Event'
+        
+  Venues:
+    allOf:
+    - $ref: '#/definitions/Paging'
+    - properties:
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/Venue'
+        
+  Categories:
+    allOf:
+    - $ref: '#/definitions/Paging'
+    - properties:
+        data:
+          type: array
+          items:
+            $ref: '#/definitions/Category'
+            
+  Event:
+    properties:
+      id:
+        type: integer
+      title:
+        type: string
+      type:
+        type: string
+      desc:
+        type: string
+      pic:
+        type: string
+      startdate:
+        type: string
+        format: date
+      enddate:
+        type: string
+        format: date
+      times:
+        type: string
+        format: time
+      price_from:
+        type: number
+        format: double
+      price_to:
+        type: number
+        format: double
+      currency:
+        type: string
+      url:
+        type: string
+      venue:
+        $ref: '#/definitions/Venue'
+      categories:
+        type: array
+      showings:
+        type: array
+
+  Venue:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      city:
+        type: string
+      country:
+        type: string
+      postcode:
+        type: string
+      address:
+        type: string
+      lat:
+        type: integer
+      long:
+        type: integer
+      venue_url:
+        type: string
+      
+  Category:
+    properties:
+      id:
+        type: integer
+      type:
+        type: string
+      name:
+        type: string
+      seo_name:
+        type: string
+            
+  Paging:
+    required:
+      - page
+      - total_pages
+      - row
+      - total_rows
+    properties:
+      page:
+        type: integer
+      total_pages:
+        type: integer
+      row:
+        type: integer
+      total_rows:
+        type: integer
+        
+  Error:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+      
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: "#/definitions/Error"
+  Standard404ErrorResponse:
+    description: No results for this query
+    schema:
+      $ref: "#/definitions/Error"
+      
+parameters:
+  limit:
+    name: limit
+    in: query
+    description: Number of results returned.
+    type: integer
+  page:
+    name: page
+    in: query
+    description: Page number.
+    type: integer
+  city:
+    name: city
+    in: query
+    description: Name of the city to search.
+    type: integer
+  latlong:
+    name: latlong
+    in: query
+    description: The centrepoint of the area to search.
+    type: integer
