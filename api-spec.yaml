@@ -256,6 +256,11 @@ definitions:
             
   Event:
     type: object
+    required:
+      - id
+      - title
+      - startdate
+      - url
     properties:
       id:
         type: integer
@@ -297,6 +302,11 @@ definitions:
         type: array
 
   Venue:
+    required:
+      - id
+      - name
+      - city
+      - country
     type: object
     properties:
       id:
@@ -320,6 +330,9 @@ definitions:
       
   Category:
     type: object
+    required:
+      - id
+      - name
     properties:
       id:
         type: integer
