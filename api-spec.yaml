@@ -7,11 +7,20 @@ info:
     url: 'https://www.tickx.co.uk/images/tickx-logo-2016.svg'
     backgroundColor: null
     
-  description:  |
-    >
-      You can use the TickX API to fetch and search our database to look for categories, venues and events we may have information on.
+  description: |
+      # Introduction
+      The TickX API is built on HTTP.  Our API is RESTful and has predictable resource URLs.  It returns HTTP response codes to indicate errors.  It also returns JSON in the HTTP body.  
       
+      Our API allows you to search our database to look for categories, venues and events we may have information on.
+     
       By using the TickX API, you agree to the terms of service.
+      
+      # Authentication
+      You need to have an account to access our API. Accounts are provided by us and include a username and password.
+      
+      The account information must be passed in the header of any requests sent to us. Invalid requests will be rejected.
+     
+    
   termsOfService: "https://tickx.co.uk/terms/"
   contact:
     email: "apiteam@tickx.co.uk"
@@ -24,6 +33,9 @@ basePath: /api/v1/
 tags:
   - name: Get
 
+securityDefinitions:
+  
+ 
 paths:                   
   /categories:
     get:
