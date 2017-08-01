@@ -259,10 +259,12 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
     
-        x-code-samples: 
-          - lang: curl
-            source: |
-              curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
+        x-code-samples: [
+          {
+            lang: curl
+            source: curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
+          }
+        ]
   
 definitions:
         
