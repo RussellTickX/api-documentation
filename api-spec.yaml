@@ -71,7 +71,8 @@ paths:
           
       x-code-samples: 
         - lang: curl
-          source: curl -u user:password syncs.tickx.co.uk/api/v1/categories
+          source: |
+            curl -u user:password syncs.tickx.co.uk/api/v1/categories
   /venues:
     get:
       summary: Retrieve a list of venues
@@ -124,7 +125,8 @@ paths:
           
       x-code-samples: 
         - lang: curl
-          source: curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
+          source: |
+            curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
   
   /events:
     get:
@@ -259,7 +261,8 @@ paths:
     
       x-code-samples: 
         - lang: curl
-          source: curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
+          source: |
+            curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
   
 definitions:
         
