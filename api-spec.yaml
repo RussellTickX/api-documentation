@@ -69,10 +69,9 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
           
-        x-code-samples: 
-          - lang: curl
-            source: |
-              curl -u user:password syncs.tickx.co.uk/api/v1/categories
+      x-code-samples: 
+        - lang: curl
+          source: curl -u user:password syncs.tickx.co.uk/api/v1/categories
   /venues:
     get:
       summary: Retrieve a list of venues
@@ -123,10 +122,9 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
           
-        x-code-samples: 
-          - lang: curl
-            source: |
-              curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
+      x-code-samples: 
+        - lang: curl
+          source: curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
   
   /events:
     get:
@@ -259,9 +257,9 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
     
-        x-code-samples: 
-          - lang: curl
-            source: curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
+      x-code-samples: 
+        - lang: curl
+          source: curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
   
 definitions:
         
