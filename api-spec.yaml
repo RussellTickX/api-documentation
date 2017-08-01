@@ -69,6 +69,10 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
           
+        x-code-samples: 
+          - lang: curl
+            source: |
+              curl -u user:password syncs.tickx.co.uk/api/v1/categories
   /venues:
     get:
       summary: Retrieve a list of venues
@@ -118,6 +122,11 @@ paths:
           $ref: '#/responses/Standard404ErrorResponse'
         500:
           $ref: '#/responses/Standard500ErrorResponse'
+          
+        x-code-samples: 
+          - lang: curl
+            source: |
+              curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
   
   /events:
     get:
@@ -198,37 +207,50 @@ paths:
             application/json:
               {
                 "page": 1,
-                "total_pages": 1,
-                "rows": 1,
-                "total_rows": 1,
-                    "data": [
+                "total_pages": 22,
+                "rows": 50,
+                "total_rows": "1079",
+                "data": [
+                  {
+                    "id": "629873",
+                    "title": "Silver Apples",
+                    "type": "gig",
+                    "desc": "Less reading, more listening. Hit the play button to discover their music. Remember, we handpick everything on DICE so it has our seal of approval that it will be a killer show.\n\n\nPresented by Band on the Wall.\n\nThis is a 14+ event (under18s to be accompanied by an adult).",
+                    "pic": "https://cdn.viagogo.net/img/cat/1022/1/1.jpg",
+                    "startdate": "2017-08-02 19:30:00",
+                    "enddate": null,
+                    "times": "19:30",
+                    "price_from": "13.50",
+                    "price_to": "14.85",
+                    "currency": "GBP",
+                    "url": "https://tickx.co.uk/event/629873",
+                    "venue": {
+                        "name": "Band On The Wall",
+                        "city": "Manchester",
+                        "country": "GB",
+                        "postcode": "M4 5JZ",
+                        "address": "25 Swan St, The Northern Quarter, Manchester M4 5JZ",
+                        "lat": "53.48522700",
+                        "long": "-2.23437350",
+                        "venue_url": "https://tickx.co.uk/venue/20"
+                    },
+                    "categories": [
                       {
-                        "id": "660077",
-                        "title": "Fin Taylor and Danny McLoughlin: Edinburgh Previews",
-                        "type": "comedy",
-                        "desc": "Two shows by two multi award winning comedians",
-                        "pic": "https://d31fr2pwly4c4s.cloudfront.net/8/7/f/971839_1_fin-taylor-and-danny-mcloughlin-edinburgh-previews_th.jpg",
-                        "startdate": "2017-07-31 02:00:00",
-                        "enddate": "2017-08-01 00:00:00",
-                        "times": "19:30",
-                        "price_from": "0.00",
-                        "price_to": "0.00",
-                        "currency": "GBP",
-                        "url": "https://tickx.co.uk/event/660077",
-                        "venue": {
-                            "name": "Gullivers",
-                            "city": "Manchester",
-                            "country": "GB",
-                            "postcode": "M4 1LW",
-                            "address": "109 Oldham St, Manchester M4 1LW",
-                            "lat": "53.48388893",
-                            "long": "-2.23391369",
-                            "venue_url": "https://tickx.co.uk/venue/60"
-                        },
-                        "categories": [],
-                        "showings": []
+                        "id": "16",
+                        "name": "Rock / Indie"
+                      },
+                      {
+                        "id": "21",
+                        "name": "Hard Rock / Metal"
+                      },
+                      {
+                        "id": "24",
+                        "name": "Rock / Indie / Alternative"
                       }
-                    ]
+                    ],
+                    "showings": []
+                  },
+                ]
               }
         400:
           $ref: '#/responses/Standard400ErrorResponse'
@@ -237,8 +259,11 @@ paths:
         500:
           $ref: '#/responses/Standard500ErrorResponse'
     
+        x-code-samples: 
+          - lang: curl
+            source: |
+              curl -u user:password syncs.tickx.co.uk/api/v1/events?city=Manchester&date_from=2017-08-02&type=gig
   
-                  
 definitions:
         
   Events:
