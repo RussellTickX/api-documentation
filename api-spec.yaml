@@ -126,7 +126,7 @@ paths:
       x-code-samples: 
         - lang: curl
           source: |
-            curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=Manchester&radius=10
+            curl -u user:password syncs.tickx.co.uk/api/v1/venues?city=London&radius=10
   
   /events:
     get:
